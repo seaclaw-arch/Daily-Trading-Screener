@@ -11,31 +11,18 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       
-      - name: 📂 DEBUG - Lihat isi direktori
+      - name: DEBUG - LIHAT ISI FOLDER
         run: |
-          echo "=== CURRENT DIRECTORY ==="
-          pwd
-          echo ""
-          echo "=== ALL FILES (ls -la) ==="
+          echo "=== MENAMPILKAN SEMUA FILE DI ROOT ==="
           ls -la
-          echo ""
-          echo "=== CHECK sniper.py ==="
-          if [ -f sniper.py ]; then
-            echo "✅ File sniper.py DITEMUKAN!"
-            echo "Ukuran file:"
-            ls -lh sniper.py
-          else
-            echo "❌ File sniper.py TIDAK DITEMUKAN!"
-            echo "File yang ada:"
-            find . -name "*sniper*" -o -name "*Sniper*"
-          fi
+          echo "======================================="
       
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.10'
       
       - name: Install dependencies
         run: |
