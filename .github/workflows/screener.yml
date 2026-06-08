@@ -34,7 +34,8 @@ jobs:
             echo "❌ sniper.py NOT found!"
             exit 1
           fi
-      
+      - name: Debug - Cek isi folder server
+        run: ls -la
       - name: Run IDX Sniper Screener
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
