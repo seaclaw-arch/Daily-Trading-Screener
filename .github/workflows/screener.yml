@@ -2,8 +2,8 @@ name: Daily IDX Screener
 
 on:
   schedule:
-    - cron: '0 9 * * 1-5'  # Senin-Jumat jam 16:00 WIB (09:00 UTC)
-  workflow_dispatch:        # Bisa dijalankan manual
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
 
 jobs:
   run-screener:
@@ -11,10 +11,29 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Update ke v4
+        uses: actions/checkout@v4
+      
+      - name: 📂 DEBUG - Lihat isi direktori
+        run: |
+          echo "=== CURRENT DIRECTORY ==="
+          pwd
+          echo ""
+          echo "=== ALL FILES (ls -la) ==="
+          ls -la
+          echo ""
+          echo "=== CHECK sniper.py ==="
+          if [ -f sniper.py ]; then
+            echo "✅ File sniper.py DITEMUKAN!"
+            echo "Ukuran file:"
+            ls -lh sniper.py
+          else
+            echo "❌ File sniper.py TIDAK DITEMUKAN!"
+            echo "File yang ada:"
+            find . -name "*sniper*" -o -name "*Sniper*"
+          fi
       
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5  # Update ke v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       
@@ -23,19 +42,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install yfinance requests pandas numpy
       
-      - name: Verify files
-        run: |
-          echo "=== Checking files ==="
-          ls -la
-          echo "=== Checking sniper.py ==="
-          if [ -f sniper.py ]; then
-            echo "✅ sniper.py found"
-          else
-            echo "❌ sniper.py NOT found!"
-            exit 1
-          fi
-      - name: Debug - Cek isi folder server
-        run: ls -la
       - name: Run IDX Sniper Screener
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
